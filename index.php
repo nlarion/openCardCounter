@@ -13,7 +13,9 @@ function eventWindowLoaded() {
 }
 
 function main() {
+
 	//globals
+
 	const STATE_INIT 	= 10;
 	const STATE_LOADING = 20;
 	const STATE_RESET	= 30;
@@ -31,6 +33,7 @@ function main() {
 	var isTheMouseBeingPressed = false;	
 	
 	//event listeners
+
 	canvas.addEventListener("mousedown",MouseClicked, false);
 	function MouseClicked(event){
 		isTheMouseBeingPressed = true;
@@ -40,6 +43,7 @@ function main() {
 		isTheMouseBeingPressed = false;
 	}
 	canvas.addEventListener("mousemove",MouseMove, false);	
+
 	function MouseMove(event) {
 		if ( event.layerX ||  event.layerX == 0) { // Firefox
    			mouseX = event.layerX ;
@@ -58,12 +62,22 @@ function main() {
 		canvas.height = document.documentElement.clientHeight;
 	}
 
+	//functions
+
 	function  drawScreen () {
+		//draw the static screen
 		c.fillStyle = '#0000A0';
 		c.fillRect(0, 0, canvas.width, canvas.height);
-		//Box
 		c.strokeStyle = '#000000'; 
 		c.strokeRect(1,  1, canvas.width-2, canvas.height-2);
+		//table
+c.lineCap="round";
+c.moveTo(20,20);
+c.lineWidth=10;
+c.lineTo(20,200);
+c.stroke();
+
+
 		player_controler();
 		update();
 		render();
@@ -85,8 +99,8 @@ function main() {
 	function render() {
 		//draw the screen
 		var ball={x:0,y:0,radius:20};
-		ball.x = 60;
-		ball.y = 60;
+		ball.x = player.x;
+		ball.y = player.y;
 		c.fillStyle = "rgba(0, 0, 0, 0.5)";
 		c.beginPath();
 		c.arc(ball.x,ball.y,ball.radius,0,Math.PI*2,true);
@@ -119,7 +133,6 @@ function main() {
 		if (introCount==150 || isTheMouseBeingPressed==true) {
 			appState = STATE_PLAYING;
 		} 
-		//else{		return;	}
 	
 	}
 
