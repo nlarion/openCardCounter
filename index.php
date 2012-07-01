@@ -29,7 +29,7 @@ function main() {
 	c = canvas.getContext('2d');
 	var pointImage = new Image();
 	var GetKeyCodeVar;
-	var player = {x:250,y:475}; //player obj
+	var player = {x:250,y:475,radius:20}; //player obj
 	var isTheMouseBeingPressed = false;	
 	
 	//event listeners
@@ -65,19 +65,8 @@ function main() {
 	//functions
 
 	function  drawScreen () {
-		//draw the static screen
-		c.fillStyle = '#0000A0';
-		c.fillRect(0, 0, canvas.width, canvas.height);
-		c.strokeStyle = '#000000'; 
-		c.strokeRect(1,  1, canvas.width-2, canvas.height-2);
-		//table
-c.lineCap="round";
-c.moveTo(20,20);
-c.lineWidth=10;
-c.lineTo(20,200);
-c.stroke();
 
-
+		draw_table();
 		player_controler();
 		update();
 		render();
@@ -86,6 +75,35 @@ c.stroke();
 		//c.fillStyle = "#FFFFFF";
 		//c.fillText (player.x, 50, 50); //first var in txt is for the var you want to see
 		//c.fillText (player.y, 100, 50); //first var in txt is for the var you want to see
+	}
+
+	function draw_table() {
+		//draw the static screen
+		c.lineWidth = 1;
+		c.beginPath();
+		c.fillStyle = '#0000A0';
+		c.fillRect(0, 0, canvas.width, canvas.height);
+		c.strokeStyle = '#000000'; 
+		c.strokeRect(1,  1, canvas.width-2, canvas.height-2);
+		c.closePath();
+	
+		var gr = c.createLinearGradient(0, 0, 100, 0);
+		
+		// Add the color stops.
+		  
+		gr.addColorStop(0,'rgb(255,0,0)');
+		gr.addColorStop(.5,'rgb(0,255,0)');
+		gr.addColorStop(1,'rgb(255,0,0)');
+		
+		// Use the gradient for the fillStyle.
+		c.strokeStyle = gr;
+		for (i=0;i<10;i++){
+			c.lineWidth = 1+i;
+			c.beginPath();
+			c.moveTo(5+i*14,5);
+			c.lineTo(5+i*14,140);
+			c.stroke();
+		}
 	}
 
 	function player_controler() {
@@ -97,13 +115,13 @@ c.stroke();
 	}
 	
 	function render() {
-		//draw the screen
-		var ball={x:0,y:0,radius:20};
-		ball.x = player.x;
-		ball.y = player.y;
-		c.fillStyle = "rgba(0, 0, 0, 0.5)";
+		//draw player
+		c.lineWidth = 1;
 		c.beginPath();
-		c.arc(ball.x,ball.y,ball.radius,0,Math.PI*2,true);
+		c.fillStyle = "rgba(0, 0, 0, 0.5)";
+		c.strokeStyle = '#000000'; 
+		c.arc(player.x,player.y,player.radius,0,Math.PI*2,true);
+		c.stroke();
 		c.closePath();
 		c.fill();	
 	}
