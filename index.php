@@ -1,24 +1,20 @@
 <?
 print "<html>";
 ?>
-<body>
-<div id="cool"></div>
+<head>
 <script>
 window.addEventListener('load', eventWindowLoaded, false);	
-
 function eventWindowLoaded() {
-
 	main();
-	
 }
 
 function main() {
 
 	//globals
 
-	const STATE_INIT 	= 10;
+	const STATE_INIT = 10;
 	const STATE_LOADING = 20;
-	const STATE_RESET	= 30;
+	const STATE_RESET = 30;
 	const STATE_PLAYING = 40;
 	var canvas, c;
 	var timer = 0;
@@ -31,15 +27,19 @@ function main() {
 	var GetKeyCodeVar;
 	var player = {x:250,y:475,radius:10}; //player obj
 	var isTheMouseBeingPressed = false;	
-	var cardDecks = 3;
 	var cards = new Array();
+	var GetKeyCodeVar = 0;
+
 	//event listeners
 
+	window.addEventListener('keydown', GetChar, false);
+	window.addEventListener('keyup', resetchar, true);
 	canvas.addEventListener("mousedown",MouseClicked, false);
 	function MouseClicked(event){
 		isTheMouseBeingPressed = true;
 	}
 	canvas.addEventListener("mouseup",MouseUnClicked, false);	
+
 	function MouseUnClicked(event){
 		isTheMouseBeingPressed = false;
 	}
@@ -58,6 +58,7 @@ function main() {
 
 	}
 	window.addEventListener("resize",changeCanvasSize,false);
+
 	function changeCanvasSize() {
 		canvas.width = document.documentElement.clientWidth;
 		canvas.height = document.documentElement.clientHeight;
@@ -65,19 +66,18 @@ function main() {
 
 	//functions
 
-	function  drawScreen () {
+	function drawScreen () {
 
 		draw_table();
 		player_controler();
 		update();
 		render();
 
-
 		//call stats to screen for testing only
 		c.textAlign = 'left';
 		c.font = "12px serif";
 		c.fillStyle = "#FFFFFF";
-		var someCardVals = "here are some cards vals";
+		var someCardVals = "here are some cards posistions ";
 		for(var i = 0; i<10; i++){
 			someCardVals += cards[i].posistionInDeck +' ';
 		}
@@ -119,25 +119,25 @@ function main() {
 	}
 
 	function player_controler() {
-		window.addEventListener('keydown', GetChar, false);
-		window.addEventListener('keyup', resetchar, true);
 		switch (GetKeyCodeVar) {
 			//should make move charactor method.
 			case 0:		
 				// do noting
 				break;
- 			case 37:			
-				// figure out wha 37 is
+ 			case 39:			
+				// if right
+				shuffleDecks(1);
 				break;
 			case 'rightstop':
 				// do something
 				break;
- 			case 39:			
-				// figure out wha 39 is
+ 			case 37:			
+				// if left
+				cards.splice(0,1);
  				break;
  			case 'leftstop':	
 				// do something
- 				break;
+				break;
  			case 40:	
 				//figure out what 40 is
  				break;
@@ -186,38 +186,56 @@ function main() {
 		c.fill();
 
 	}
+	//create cards
+	function makeDecks(cardDecks){
+		var maxCards = cardDecks*52;
+		if (maxCards=0){
+			alert('cant be zero!');
+		}else{
+			startCountForPosistion = 1;
+			for (var i = 0; i < cardDecks; i++) {
+				for (var k = 1; k <=13 ; k++) {
+					for (var l = 1; l <=4 ; l++) {			
+						//tempCard = {posistionInDeck: (i*k), posistionOnTable: 'deck', cardValue: k, cardSuit: l};
+						tempCard = {posistionInDeck: startCountForPosistion, posistionOnTable: 'deck', cardValue: k, cardSuit: l};
+						startCountForPosistion++;
+						cards.push(tempCard);
+					}
+				}
+			}
+		}
+	}
 
 	function shuffleDecks(cardDecks){
 		var maxCards = cardDecks*52;
-		for (var i = 0; i < maxCards; i++) {
-				tempCardPosistion = Math.floor(Math.random()*maxCards);
-				var placeOK = false;
-				while (!placeOK) {
-					tempValue = Math.floor(Math.random()*13);
-					tempSuit =  Math.floor(Math.random()*4);
-					tempCard = {posistionInDeck:tempCardPosistion, posistionOnTable: 'deck', cardValue: tempValue, cardSuit: tempSuit};
-					placeOK = canExistHere(tempCard);
-				}
-				cards.push(tempCard);
+		for (var i = 0; i < cards.length; i++) {
+			tempCardPosistion = Math.floor(Math.random()*maxCards);
+			var placeOK = false;
+			while (!placeOK) {
+				//tempValue = Math.floor(Math.random()*maxCards);
+				tempCard = {posistionInDeck: tempCardPosistion};
+				placeOK = canExistHere(tempCard);
 			}
+			cards[i].posistionInDeck=tempCard.posistionInDeck;
+		}
 	}
 
 	function canExistHere(card) {
-		var retval = true;
-		for (var i =0; i <card.length; i++) {
-			if (alreadyExists(card, card[i])) {
-				retval = false;
+		var retval = false;
+		for (var i =0; i <cards.length; i++) {
+			if ( alreadyExists(card, card[i]) ) {
+				retval = true;
 			}
 		}
 		return retval;
 	}
 
 	function alreadyExists(card1,card2) {
-	    var retval = false;
-	    if (card1.posistionInDeck == card2.posistionInDeck || card1.cardValue==card2.cardValue || card1.cardSuit == card2.cardSuit) {
-	  	    retval = true;
-	    }
-     	return retval;
+		var retval = false;
+		if (card1.posistionInDeck == card2.posistionInDeck) {
+			retval = true;
+		}
+		return retval;
   	}
 
 	function GetChar(event){
@@ -246,7 +264,7 @@ function main() {
 			}
 		}
 	}
-	function runtheapp() {	
+	function runtheapp() {
 		setInterval(run,33);
 	}
 
@@ -273,7 +291,7 @@ function main() {
 	  	switch(appState) {
 			case STATE_INIT:
 				initApp();
-				shuffleDecks(cardDecks);
+				makeDecks(3);
 				break;
 			case STATE_LOADING:
 				//wait for call backs
@@ -294,6 +312,8 @@ function main() {
 	pointImage.addEventListener('load', runtheapp(), false);
 }
 </script>
-
+</head>
+<body>
+<div id="cool"></div>
 </body>
 </html>
