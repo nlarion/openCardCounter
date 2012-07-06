@@ -207,6 +207,20 @@ function main() {
 	}
 
 	function shuffleDecks(cardDecks){
+		//var maxCards = cardDecks*52;
+		var arrayForPosistions = new Array();
+		for (var i = 0; i < cards.length; i++) {
+			arrayForPosistions.push(i);
+			//alert(arrayForPosistions[i]);
+		}	
+		//alert(arrayForPosistions[].value);
+		arrayForPosistions.sort(function() {return 0.5 - Math.random()});
+		for (var i = 0; i < cards.length; i++) {
+			cards[i].posistionInDeck=arrayForPosistions[i];
+		}	
+	}
+
+	function shuffleDecks2(cardDecks){
 		var maxCards = cardDecks*52;
 		for (var i = 0; i < cards.length; i++) {
 			tempCardPosistion = Math.floor(Math.random()*maxCards);
