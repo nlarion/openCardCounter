@@ -79,11 +79,11 @@ function main() {
 		c.fillStyle = "#FFFFFF";
 		var someCardVals = "here are some cards posistions ";
 		for(var i = 0; i<10; i++){
-			someCardVals += cards[i].posistionInDeck +' ';
+			someCardVals += ' '+cards[i].posistionInDeck +' ';
 		}
-		var someCardVals2 = "here are some cards vals";
+		var someCardVals2 = "here are some cards vals ";
 		for(var i = 0; i<10; i++){
-			someCardVals2 += cards[i].cardValue +' ';
+			someCardVals2 += ' '+cards[i].cardValue +' ';
 		}
 		c.fillText (someCardVals, 50, 50); //first var in txt is for the var you want to see
 		c.fillText (someCardVals2, 50, 100); //first var in txt is for the var you want to see
@@ -188,11 +188,12 @@ function main() {
 	}
 	//create cards
 	function makeDecks(cardDecks){
+		//alert(cardDecks);
 		var maxCards = cardDecks*52;
 		if (maxCards=0){
 			alert('cant be zero!');
 		}else{
-			startCountForPosistion = 1;
+			var startCountForPosistion = 1;
 			for (var i = 0; i < cardDecks; i++) {
 				for (var k = 1; k <=13 ; k++) {
 					for (var l = 1; l <=4 ; l++) {			
@@ -204,9 +205,11 @@ function main() {
 				}
 			}
 		}
+		appState = STATE_PLAYING;
 	}
 
 	function shuffleDecks(cardDecks){
+		//alert(cards.length);		
 		//var maxCards = cardDecks*52;
 		var arrayForPosistions = new Array();
 		for (var i = 0; i < cards.length; i++) {
@@ -296,7 +299,7 @@ function main() {
 		c.textAlign = 'center';
 		c.fillText ("openCardCounter",canvas.width/2, canvas.height/2);
 		if (introCount==150 || isTheMouseBeingPressed==true) {
-			appState = STATE_PLAYING;
+			appState = STATE_LOADING;
 		} 
 	
 	}
@@ -305,9 +308,9 @@ function main() {
 	  	switch(appState) {
 			case STATE_INIT:
 				initApp();
-				makeDecks(3);
 				break;
 			case STATE_LOADING:
+				makeDecks(3); //make initial cards
 				//wait for call backs
 				break;
 			case STATE_RESET:
