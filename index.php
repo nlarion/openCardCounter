@@ -168,25 +168,61 @@ function main() {
 		c.stroke();
 		c.closePath();
 		c.fill();
-
-
-
-		c.lineWidth = 8;
-		c.beginPath();
-		c.fillStyle = "#ffffff";
-		c.strokeStyle = '#000000'; 
-		c.lineJoin='round';
-		c.lineCap='butt';
-		c.beginPath();
-		c.moveTo(10, 100);
-		c.lineTo(35, 100);
-		c.lineTo(35,125);
-		c.stroke();
-		c.closePath();
-		c.fill();
-
+		for (var i = 1; i <= cards.length; i++) {
+			txt =cards[i].posistionInDeck;
+			c.lineWidth = 8;
+			c.beginPath();
+			c.fillStyle = "#ffffff";
+			c.strokeStyle = '#000000'; 
+			c.lineJoin='round';
+			c.lineCap='butt';
+			c.beginPath();
+			var x = 100*txt;
+			var y = 100*txt;
+			c.moveTo(x, y);
+			c.lineTo(x+75, y);
+			c.lineTo(x+75,y+100);
+			c.lineTo(x,y+100);
+			c.lineTo(x,y);
+			c.stroke();
+			c.closePath();
+			c.fill();
+			c.font = "12px serif";
+			c.fillStyle = "#000000";
+			c.fillText (txt, x+10, y+10); //first var in txt is for the var you want to see
+			drawSuitOnCard(x,y,cards[i].cardSuit);
+		}
 	}
 	//create cards
+	function drawSuitOnCard(x,y,suit){
+		switch (suit) {
+			//should make move charactor method.
+			case 1:		
+				// dimond
+				break;
+ 			case 2:			
+				// heart
+				break;
+			case 3:
+				// spade
+				break;
+ 			case 4:		
+				//club	
+				//c.lineWidth = 1;
+				c.beginPath();
+				c.fillStyle = "rgba(0, 0, 0, 1)";
+				c.strokeStyle = '#000000'; 
+				c.arc(x,y,10,0,Math.PI*2,true);
+				c.arc(x+10,y+17,10,0,Math.PI*2,true);
+				c.arc(x-10,y+17,10,0,Math.PI*2,true);
+				c.stroke();
+				c.closePath();
+				c.fill();
+	 			break;
+	 	
+
+		}
+	}
 	function makeDecks(cardDecks){
 		//alert(cardDecks);
 		var maxCards = cardDecks*52;
@@ -205,7 +241,6 @@ function main() {
 				}
 			}
 		}
-		appState = STATE_PLAYING;
 	}
 
 	function shuffleDecks(cardDecks){
@@ -312,6 +347,7 @@ function main() {
 			case STATE_LOADING:
 				makeDecks(3); //make initial cards
 				//wait for call backs
+				appState = STATE_PLAYING;
 				break;
 			case STATE_RESET:
 				resetApp();
