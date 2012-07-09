@@ -168,8 +168,8 @@ function main() {
 		c.stroke();
 		c.closePath();
 		c.fill();
-		for (var i = 1; i <= cards.length; i++) {
-			txt =cards[i].posistionInDeck;
+		for (var i = 0; i < cards.length; i++) {
+			var txt = cards[i].posistionInDeck;
 			c.lineWidth = 8;
 			c.beginPath();
 			c.fillStyle = "#ffffff";
@@ -177,12 +177,12 @@ function main() {
 			c.lineJoin='round';
 			c.lineCap='butt';
 			c.beginPath();
-			var x = 100*txt;
-			var y = 100*txt;
+			var x = (canvas.width/12)*txt;
+			var y = (canvas.height/12)*txt;
 			c.moveTo(x, y);
-			c.lineTo(x+75, y);
-			c.lineTo(x+75,y+100);
-			c.lineTo(x,y+100);
+			c.lineTo(x+(canvas.height/12), y);
+			c.lineTo(x+(canvas.height/12),y+(canvas.height/10));
+			c.lineTo(x,y+(canvas.height/10));
 			c.lineTo(x,y);
 			c.stroke();
 			c.closePath();
@@ -237,6 +237,7 @@ function main() {
 						tempCard = {posistionInDeck: startCountForPosistion, posistionOnTable: 'deck', cardValue: k, cardSuit: l};
 						startCountForPosistion++;
 						cards.push(tempCard);
+						//alert(tempCard.posistionInDeck);
 					}
 				}
 			}
@@ -257,38 +258,6 @@ function main() {
 			cards[i].posistionInDeck=arrayForPosistions[i];
 		}	
 	}
-
-	function shuffleDecks2(cardDecks){
-		var maxCards = cardDecks*52;
-		for (var i = 0; i < cards.length; i++) {
-			tempCardPosistion = Math.floor(Math.random()*maxCards);
-			var placeOK = false;
-			while (!placeOK) {
-				//tempValue = Math.floor(Math.random()*maxCards);
-				tempCard = {posistionInDeck: tempCardPosistion};
-				placeOK = canExistHere(tempCard);
-			}
-			cards[i].posistionInDeck=tempCard.posistionInDeck;
-		}
-	}
-
-	function canExistHere(card) {
-		var retval = false;
-		for (var i =0; i <cards.length; i++) {
-			if ( alreadyExists(card, card[i]) ) {
-				retval = true;
-			}
-		}
-		return retval;
-	}
-
-	function alreadyExists(card1,card2) {
-		var retval = false;
-		if (card1.posistionInDeck == card2.posistionInDeck) {
-			retval = true;
-		}
-		return retval;
-  	}
 
 	function GetChar(event){
 		var keyCode = ('which' in event) ? event.which : event.keyCode;
