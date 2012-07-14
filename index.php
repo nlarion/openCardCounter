@@ -29,7 +29,7 @@ function main() {
 	var isTheMouseBeingPressed = false;	
 	var cards = new Array();
 	var GetKeyCodeVar = 0;
-
+	var ratio = canvas.width/canvas.height;
 	//event listeners
 
 	window.addEventListener('keydown', GetChar, false);
@@ -93,7 +93,7 @@ function main() {
 		//draw the static screen
 		c.lineWidth = 1;
 		c.beginPath();
-		c.fillStyle = '#0000A0';
+		c.fillStyle = '#29A329';
 		c.fillRect(0, 0, canvas.width, canvas.height);
 		c.strokeStyle = '#000000'; 
 		c.strokeRect(1,  1, canvas.width-2, canvas.height-2);
@@ -168,6 +168,12 @@ function main() {
 		c.stroke();
 		c.closePath();
 		c.fill();
+		//alert(ratio);
+		//draw cards
+		drawCards();
+	}
+
+	function drawCards(){
 		for (var i = 0; i < cards.length; i++) {
 			var txt = cards[i].posistionInDeck;
 			c.lineWidth = 8;
@@ -177,13 +183,14 @@ function main() {
 			c.lineJoin='round';
 			c.lineCap='butt';
 			c.beginPath();
-			var x = (canvas.width/12)*txt;
-			var y = (canvas.height/12)*txt;
+			var x = (canvas.width/10)*txt;
+			var y = (canvas.height/10)*txt;
 			c.moveTo(x, y);
-			c.lineTo(x+(canvas.height/12), y);
-			c.lineTo(x+(canvas.height/12),y+(canvas.height/10));
+			c.lineTo(x+(canvas.width/30), y);
+			c.lineTo(x+(canvas.width/30),y+(canvas.height/10));
 			c.lineTo(x,y+(canvas.height/10));
 			c.lineTo(x,y);
+			c.lineTo(x+(canvas.width/30), y);
 			c.stroke();
 			c.closePath();
 			c.fill();
@@ -212,9 +219,9 @@ function main() {
 				c.beginPath();
 				c.fillStyle = "rgba(0, 0, 0, 1)";
 				c.strokeStyle = '#000000'; 
-				c.arc(x,y,10,0,Math.PI*2,true);
-				c.arc(x+10,y+17,10,0,Math.PI*2,true);
-				c.arc(x-10,y+17,10,0,Math.PI*2,true);
+				c.arc(x+(canvas.height/25),y+(canvas.height/25),(canvas.width/750),0,Math.PI*2,true);
+				c.arc(x+ (canvas.width/250)+(canvas.height/25),y+ (canvas.height/200)+(canvas.height/25),(canvas.width/750),0,Math.PI*2,true);
+				c.arc(x-(canvas.width/250)+(canvas.height/25),y+(canvas.height/200)+(canvas.height/25),(canvas.width/750),0,Math.PI*2,true);
 				c.stroke();
 				c.closePath();
 				c.fill();
