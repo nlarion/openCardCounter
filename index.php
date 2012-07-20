@@ -215,16 +215,18 @@ function main() {
 				break;
  			case 4:		
 				//club	
-				//c.lineWidth = 1;
 				c.beginPath();
-				c.fillStyle = "rgba(0, 0, 0, 1)";
-				c.strokeStyle = '#000000'; 
-				c.arc(x+(canvas.height/25),y+(canvas.height/25),(canvas.width/750),0,Math.PI*2,true);
-				c.arc(x+ (canvas.width/250)+(canvas.height/25),y+ (canvas.height/200)+(canvas.height/25),(canvas.width/750),0,Math.PI*2,true);
-				c.arc(x-(canvas.width/250)+(canvas.height/25),y+(canvas.height/200)+(canvas.height/25),(canvas.width/750),0,Math.PI*2,true);
+				c.lineWidth = (canvas.width/600);
+				c.lineJoin='miter';
+				c.lineCap='butt';
+				c.fillStyle = "black";
+				c.strokeStyle = 'black'; 
+				c.arc(x+(canvas.height/25),y+(canvas.height/25),(canvas.width/600), 0.5 * Math.PI, 2.2 * Math.PI,false);
+				//c.arc(x+ (canvas.width/250)+(canvas.height/25),y+ (canvas.height/200)+(canvas.height/25),(canvas.width/750), 0.5 * Math.PI, 2* Math.PI,false);
+				//c.arc(x-(canvas.width/250)+(canvas.height/25),y+(canvas.height/200)+(canvas.height/25),(canvas.width/750), 2 * Math.PI, 0.1* Math.PI2,true);
 				c.stroke();
 				c.closePath();
-				c.fill();
+				//c.fill();
 	 			break;
 	 	
 
