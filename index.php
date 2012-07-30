@@ -87,6 +87,7 @@ function main() {
 		}
 		c.fillText (someCardVals, 50, 50); //first var in txt is for the var you want to see
 		c.fillText (someCardVals2, 50, 100); //first var in txt is for the var you want to see
+		c.fillText (player.x+'  '+player.y, 50, 200); //first var in txt is for the var you want to see
 	}
 
 	function draw_table() {
@@ -185,23 +186,41 @@ function main() {
 			c.beginPath();
 			var x = (canvas.width/10)*txt;
 			var y = (canvas.height/10)*txt;
-			c.moveTo(x, y);
-			c.lineTo(x+(canvas.width/30), y);
-			c.lineTo(x+(canvas.width/30),y+(canvas.height/10));
-			c.lineTo(x,y+(canvas.height/10));
-			c.lineTo(x,y);
-			c.lineTo(x+(canvas.width/30), y);
+			if((x/y)>1){ //figure out if the rez is wack then flip
+				var topleft = {x:x, y:y};
+				var topright = {x:x+(canvas.width/30), y:y};
+				var bottomright = {x:x+(canvas.width/30), y:y+(canvas.height/10)};
+				var bottomleft = {x:x, y:y+(canvas.height/10)};
+			}else{
+				var topleft = {x:x, y:y};
+				var topright = {x:x+(canvas.width/10), y:y};
+				var bottomright = {x:x+(canvas.width/10), y:y+(canvas.height/30)};
+				var bottomleft = {x:x, y:y+(canvas.height/30)};
+			}
+			c.moveTo(topleft.x,topleft.y);
+			c.lineTo(topright.x, topright.y);
+			c.lineTo(bottomright.x, bottomright.y);
+			c.lineTo(bottomleft.x, bottomleft.y);
+			c.lineTo(topleft.x, topleft.y);	
+			c.lineTo(topright.x, topright.y);
 			c.stroke();
 			c.closePath();
 			c.fill();
 			c.font = "12px serif";
 			c.fillStyle = "#000000";
-			c.fillText (txt, x+10, y+10); //first var in txt is for the var you want to see
-			drawSuitOnCard(x,y,cards[i].cardSuit);
+			c.fillText (txt, topleft.x+((topright.x-topleft.x)/6), topleft.y+((bottomleft.y-topleft.y)/6)); //first var in txt is for the var you want to see
+			c.save();
+			c.translate(topright.x-((bottomright.x-bottomleft.x)/6), bottomright.y-((bottomleft.y-topleft.y)/6));
+			c.rotate(-Math.PI/2);
+			c.textAlign = "center";
+			c.fillText (txt, x, y); 
+			c.restore();
+
+			drawSuitOnCard(topleft,topright,bottomright,bottomleft,cards[i].cardSuit);
 		}
 	}
 	//create cards
-	function drawSuitOnCard(x,y,suit){
+	function drawSuitOnCard(topleft,topright,bottomright,bottomleft,suit){
 		switch (suit) {
 			//should make move charactor method.
 			case 1:		
@@ -221,9 +240,10 @@ function main() {
 				c.lineCap='butt';
 				c.fillStyle = "black";
 				c.strokeStyle = 'black'; 
-				c.arc(x+(canvas.height/25),y+(canvas.height/25),(canvas.width/600), 0.5 * Math.PI, 2.2 * Math.PI,false);
-				//c.arc(x+ (canvas.width/250)+(canvas.height/25),y+ (canvas.height/200)+(canvas.height/25),(canvas.width/750), 0.5 * Math.PI, 2* Math.PI,false);
-				//c.arc(x-(canvas.width/250)+(canvas.height/25),y+(canvas.height/200)+(canvas.height/25),(canvas.width/750), 2 * Math.PI, 0.1* Math.PI2,true);
+				//c.arc(x- (canvas.width/250)+(canvas.height/25),y+ (canvas.height/200)+(canvas.height/25),(canvas.width/750), Math.PI/6, 7*Math.PI/4,false);
+				//c.arc(x+ (canvas.height/25),y+(canvas.height/25),(canvas.width/750), 0.8 * Math.PI, 2.2 * Math.PI,false);
+				//c.arc(x+ (canvas.width/250)+(canvas.height/25),y+ (canvas.height/200)+(canvas.height/25),(canvas.width/750), 5* Math.PI/3, 5*Math.PI/6,false);
+				//c.arc(x+ (canvas.width/250)+(canvas.height/25),y+ (canvas.height/100)+(canvas.height/25),(canvas.width/750), 7*Math.PI/4, Math.PI/6,false);
 				c.stroke();
 				c.closePath();
 				//c.fill();
